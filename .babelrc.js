@@ -3,7 +3,7 @@ module.exports = {
     ["@babel/preset-env", {
       useBuiltIns: "usage",
       targets: {
-        node: "8.9"
+        node: "6.10"
       }
     }]
   ],

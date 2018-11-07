@@ -23,7 +23,10 @@ var capi = new Capi({
 export async function process(request) {
   return do {
     if (request.type === 'HTTP') {
-      await rp(request.msg)
+      await rp({
+        ...request.msg,
+        resolveWithFullResponse: true,
+      })
     } else {
       await new Promise((resolve, reject) => {
         dns.resolve4(request.msg, (err, addresses) => {
@@ -49,7 +52,7 @@ exports.main_handler = async (event, context, callback) => {
     msg.error = e
   }
 
-  const buf = new Buffer(JSON.encode(msg), 'utf8')
+  const buf = new Buffer(JSON.stringify(msg), 'utf8')
   zlib.deflate(buf, (err, buf) => {
     console.error(err)
     capi.request({
